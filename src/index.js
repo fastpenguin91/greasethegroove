@@ -7,7 +7,7 @@ class Alarm extends React.Component {
     super(props);
     this.state = {
       time: '0',
-      alarms: [],
+      alarms: ["9:00", "10:00", "11:00", "12:00", "19:45"],
     };
   }
 
@@ -26,8 +26,23 @@ class Alarm extends React.Component {
 
   calculateTime(){
     let today = new Date();
-    let currentTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let currentTime = today.getHours() + ":" + today.getMinutes();// + ":" + today.getSeconds();
     return currentTime;
+  }
+
+  checkAlarmStatus(){
+    var i;
+    let testString = 'test these: ';
+    for(i = 0; i < this.state.alarms.length; i++) {
+      if (this.calculateTime() === this.state.alarms[i]) {
+        testString = "Drop and give me 20 you lazy bum!";
+        console.log("going through for array item: " + i);
+      } else {
+        testString = "Business as usual...";
+        console.log("going through for array item: " + i);
+      }
+    }
+    return testString;
   }
 
   componentDidMount() {
@@ -46,7 +61,7 @@ class Alarm extends React.Component {
     return (
       <div>
         <p>Current Time: {this.state.time}</p>
-        <p></p>
+        <p>{this.checkAlarmStatus()}</p>
         <p>Set an alarm here:</p>
         <input type="time" id="alarm" name="setalarm"/>
         <p onClick={() => this.addAlarm()}>SET!</p>
