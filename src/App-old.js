@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Alarm from './Alarm.js';
 
-function App() {
+class App extends React.Component {
   return (
     <div className="App">
       <header className="App-header">
