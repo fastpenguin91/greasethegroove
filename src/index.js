@@ -6,21 +6,60 @@ class Alarm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      alarmCounter: 10,
       time: '0',
-      alarms: ["9:00", "10:00", "11:00", "12:00", "19:45"],
+//      alarms: ["9:00", "10:00", "11:00", "12:00", "19:45"],
+      alarms: [
+        {
+          id: 1,
+          alarm: "9:00",
+        },
+        {
+          id: 2,
+          alarm: "10:00",
+        },
+               {
+                 id: 3,
+                 alarm: "11:00",
+               },
+               {
+                 id: 4,
+                 alarm: "12:00",
+               },
+               {
+                 id: 5,
+                 alarm: "19:45",
+               }],
     };
   }
 
   addAlarm(){
-    // is this an immutable way to add an alarm?
-    console.log("Hey there");
+    this.state.alarmCounter++;
     let alarms = this.state.alarms.slice();
     let inputValue = document.getElementById('alarm').value;
     console.log(inputValue);
     this.setState({
       time: this.calculateTime(),
-      alarms: alarms.concat([inputValue]),
+      alarms: alarms.concat([
+        {
+          id: 1,
+          alarm: inputValue,
+        }]),
     });
+  }
+
+  removeAlarm(arg1){
+    let alarms = this.state.alarms.slice();
+    let removeThis = alarms.find(obj => obj.id == arg1);
+    //console.log("remove alarm #" + arg1);
+//    console.log(removeThis);
+    const result = alarms.filter(alarms => alarms.id !== arg1);
+    this.setState({
+      time: this.calculateTime(),
+      alarms: result,
+    });
+
+    console.log(result);
   }
 
 
@@ -36,10 +75,10 @@ class Alarm extends React.Component {
     for(i = 0; i < this.state.alarms.length; i++) {
       if (this.calculateTime() === this.state.alarms[i]) {
         testString = "Drop and give me 20 you lazy bum!";
-        console.log("going through for array item: " + i);
+        //console.log("going through for array item: " + i);
       } else {
         testString = "Business as usual...";
-        console.log("going through for array item: " + i);
+        //console.log("going through for array item: " + i);
       }
     }
     return testString;
@@ -55,8 +94,9 @@ class Alarm extends React.Component {
 
 
   render() {
+    console.log("this was rendered");
     this.items = this.state.alarms.map((item, key) =>
-                                     <li>{item}</li>
+                                       <li>{item.alarm} <span onClick={() => this.removeAlarm(item.id)}>Remove alarm here:</span> </li>
                                     );
     return (
       <div>

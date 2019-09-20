@@ -1,0 +1,6 @@
+- get alarm added with proper id for uniqueness
+- allow specific days
+- Allow user to set pushup counts
+- keep record of # of pushups done total, daily, etc.
+- user to keep different workouts
+- Allow user to delay 3min, 5min, 10min
