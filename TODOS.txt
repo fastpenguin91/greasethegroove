@@ -1,4 +1,6 @@
-- get alarm added with proper id for uniqueness
+done - get alarm added with proper id for uniqueness
+
+
 - allow specific days
 - Allow user to set pushup counts
 - keep record of # of pushups done total, daily, etc.

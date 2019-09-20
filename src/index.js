@@ -34,15 +34,17 @@ class Alarm extends React.Component {
   }
 
   addAlarm(){
-    this.state.alarmCounter++;
+    
     let alarms = this.state.alarms.slice();
+    let alarmID = this.state.alarmCounter + 1;
     let inputValue = document.getElementById('alarm').value;
     console.log(inputValue);
     this.setState({
+      alarmCounter: alarmID,
       time: this.calculateTime(),
       alarms: alarms.concat([
         {
-          id: 1,
+          id: this.state.alarmCounter,
           alarm: inputValue,
         }]),
     });
@@ -96,7 +98,7 @@ class Alarm extends React.Component {
   render() {
     console.log("this was rendered");
     this.items = this.state.alarms.map((item, key) =>
-                                       <li>{item.alarm} <span onClick={() => this.removeAlarm(item.id)}>Remove alarm here:</span> </li>
+                                       <li key={item.id}>{item.alarm} <span onClick={() => this.removeAlarm(item.id)}>Remove alarm here:</span> </li>
                                     );
     return (
       <div>
