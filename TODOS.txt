@@ -1,5 +1,6 @@
 done - get alarm added with proper id for uniqueness
 
+- Stuck figuring out how to say "Alarm 10:00 set for Monday, Wednesday, Friday". allowing them to edit the days the alarm gets set for
 
 - allow specific days
 - Allow user to set pushup counts
