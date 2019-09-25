@@ -171,6 +171,7 @@ class Alarm extends React.Component {
               <Field type="time" name="thetime" />
               <ErrorMessage name="thetime" component="div" />
               <Field type="password" name="password" />
+              <Field type="password" name="password" />
               <ErrorMessage name="password" component="div" />
               <button type="submit" disabled={isSubmitting}>
                 Submit
