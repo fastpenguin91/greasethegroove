@@ -1,9 +1,99 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import classNames from 'classnames';
 //import Basic from './form.js';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
+// Input feedback
+const InputFeedback = ({ error }) =>
+      error ? <div className={classNames("input-feedback")}>{error}</div> : null;
+
+
+
+// Checkbox group
+class CheckboxGroup extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleChange = event => {
+    const target = event.currentTarget;
+    let valueArray = [...this.props.value] || [];
+
+    if (target.checked) {
+      valueArray.push(target.id);
+    } else {
+      valueArray.splice(valueArray.indexOf(target.id), 1);
+    }
+
+    this.props.onChange(this.props.id, valueArray);
+  };
+
+  handleBlur = () => {
+    // take care of touched
+    this.props.onBlur(this.props.id, true);
+  };
+
+  render() {
+    const { value, error, touched, label, className, children } = this.props;
+
+    const classes = classNames(
+      "input-field",
+      {
+        "is-success": value || (!error && touched), // handle prefilled or user-filled
+        "is-error": !!error && touched
+      },
+      className
+    );
+
+    return (
+      <div className={classes}>
+        <fieldset>
+          <legend>{label}</legend>
+          {React.Children.map(children, child => {
+            return React.cloneElement(child, {
+              field: {
+                value: value.includes(child.props.id),
+                onChange: this.handleChange,
+                onBlur: this.handleBlur
+              }
+            });
+          })}
+          {touched && <InputFeedback error={error} />}
+        </fieldset>
+      </div>
+    );
+  }
+}
+
+
+
+const Checkbox = ({
+  field: { name, value, onChange,onBlur },
+  form: { errors, touched, setFieldValue },
+  id,
+  label,
+  className,
+  ...props
+}) => {
+  return (
+    <div>
+      <input
+        name={name}
+        id={id}
+        type="checkbox"
+        value={value}
+        checked={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        className={classNames("radio-button")}
+      />
+      <label htmlFor={id}>{label}</label>
+      {touched[name] && <InputFeedback error={errors[name]} />}
+    </div>
+  );
+};
 
 
 class Alarm extends React.Component {
@@ -133,62 +223,120 @@ class Alarm extends React.Component {
       <div>
         <p>Current Time: {this.state.time}</p>
         <p>{this.checkAlarmStatus()}</p>
-        <h1>Any place in your app!</h1>
-        <Formik
-          initialValues={{ thetime: '', password: '' }}
-          validate={values => {
-            let errors = {};
-            if (!values.thetime) {
-              errors.thetime = 'Required';
-            }// else if (
-             // !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.thetime)
-            //) {
-            //  errors.thetime= 'Invalid email address';
-            //}
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              //              alert(JSON.stringify(values, null, 2));
-              let alarms = this.state.alarms.slice();
-              let alarmID = this.state.alarmCounter + 1;
-              let inputValue = values.thetime;
-              this.setState({
-                alarmCounter: alarmID,
-                time: this.calculateTime(),
-                alarms: alarms.concat([
-                  {
-                    id: this.state.alarmCounter,
-                    alarm: inputValue,
-                  }]),
-              });
-              setSubmitting(false);
-            }, 400);
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              <Field type="time" name="thetime" />
-              <ErrorMessage name="thetime" component="div" />
-              <Field type="password" name="password" />
-              <Field type="password" name="password" />
-              <ErrorMessage name="password" component="div" />
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </Form>
-          )}
-        </Formik>
+
+    <Formik
+      initialValues={{
+        checkboxGroup: [],
+        thetime: '',
+
+      }}
+      onSubmit={(values, actions) => {
+        setTimeout(() => {
+
+
+          let alarms = this.state.alarms.slice();
+          let alarmID = this.state.alarmCounter + 1;
+          console.log("the time");
+          let inputValue = values.thetime;
+
+          this.setState({
+            alarmCounter: alarmID,
+            time: this.calculateTime(),
+            alarms: alarms.concat([
+              {
+                id: this.state.alarmCounter,
+                alarm: inputValue,
+              }]),
+          });
+
+
+          console.log(this.state);
+          console.log(JSON.stringify(values, null, 2));
+          actions.setSubmitting(false);
+        }, 500);
+      }}
+      render={({
+        handleSubmit,
+        setFieldValue,
+        setFieldTouched,
+        values,
+        errors,
+        touched,
+        isSubmitting
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <Field type="time" name="thetime" />
+
+          <h2>Checkbox group</h2>
+          <CheckboxGroup
+            id="checkboxGroup"
+            label="Which of these?"
+            value={values.checkboxGroup}
+            error={errors.checkboxGroup}
+            touched={touched.checkboxGroup}
+            onChange={setFieldValue}
+            onBlur={setFieldTouched}
+          >
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="1"
+              label="Sunday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="2"
+              label="Monday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="3"
+              label="Tuesday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="4"
+              label="Wednesday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="5"
+              label="Thursday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="6"
+              label="Friday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="7"
+              label="Saturday"
+            />
+          </CheckboxGroup>
+
+
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </form>
+      )}
+    />
+
+
+
+
+
+
+
         <p>Set an alarm here:</p>
         <input type="time" id="alarm" name="setalarm"/>
-        <input type="checkbox" name="vehicle1" value="Sunday"/> Sunday
-        <input type="checkbox" name="vehicle1" value="Monday"/> Monday
-        <input type="checkbox" name="vehicle1" value="Tuesday"/> Tuesday
-        <input type="checkbox" name="vehicle1" value="Wednesday"/> Wednesday
-        <input type="checkbox" name="vehicle1" value="Thursday"/> Thursday
-        <input type="checkbox" name="vehicle1" value="Friday"/> Friday
-        <input type="checkbox" name="vehicle1" value="Saturday"/> Saturday
-        <p>Days:</p>
         <p onClick={() => this.addAlarm()}>SET!</p>
         <p>Alarms Currently Set:</p>
         <ul>{this.items}</ul>
