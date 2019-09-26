@@ -102,39 +102,28 @@ class Alarm extends React.Component {
     this.state = {
       alarmCounter: 10,
       time: '0',
+      items: '',
+      items2: '',
 //      alarms: ["9:00", "10:00", "11:00", "12:00", "19:45"],
       alarms: [
         {
           id: 1,
           alarm: "9:00",
-          days: [1],
+          days: ["1"],
+          daysString: "Sunday, ",
         },
         {
           id: 2,
           alarm: "10:00",
-          days: [2,4],
+          days: ["2","4"],
+          daysString: "Monday, Wednesday ",
         },],
     };
   }
 
-  addAlarm(){
-    let alarms = this.state.alarms.slice();
-    let alarmID = this.state.alarmCounter + 1;
-    let inputValue = document.getElementById('alarm').value;
-    this.setState({
-      alarmCounter: alarmID,
-      time: this.calculateTime(),
-      alarms: alarms.concat([
-        {
-          id: this.state.alarmCounter,
-          alarm: inputValue,
-        }]),
-    });
-  }
-
   removeAlarm(arg1){
     let alarms = this.state.alarms.slice();
-    let removeThis = alarms.find(obj => obj.id == arg1);
+    //let removeThis = alarms.find(obj => obj.id == arg1);
     const result = alarms.filter(alarms => alarms.id !== arg1);
     this.setState({
       time: this.calculateTime(),
@@ -177,50 +166,44 @@ class Alarm extends React.Component {
     clearInterval(this.interval);
   }
 
-  createAlarmList(){
-    var i;
-    var i2;
-    for(i = 0; i < this.state.alarms.length; i++) {
-
-      let alarmDays = this.state.alarms[i].days;
-      var y;
-//      for(y = 0; y < alarmDays.length; y++) {
-//      }
-
-
-    }
-  }
-
   returnDays(days){
     let i;
     let returnString = "";
-
+    console.log("days: ");
+    console.log(days);
     for(i = 0; i < days.length; i++) {
         switch (days[i]) {
-        case 1:
+        case "1":
           returnString += "Sunday, ";
+          console.log("matched case 1");
           break;
-        case 2:
+        case "2":
           returnString += "Monday, ";
+          console.log("matched case 2");
           break;
-        case 3:
+        case "3":
           returnString += "Tuesday, ";
+          console.log("matched case 3");
           break;
-        case 4:
+        case "4":
           returnString += "Wednesday, ";
+          console.log("matched case 4");
           break;
-        case 5:
+        case "5":
           returnString += "Thursday, ";
           break;
-        case 6:
+        case "6":
           returnString += "Friday, ";
           break;
-        case 7:
+        case "7":
           returnString += "Saturday, ";
           break;
+        default:
+          console.log("Nothing matched");
         }
     }
-
+    console.log("Return String is: ");
+    console.log(returnString);
     return returnString;
 
   }
@@ -228,10 +211,10 @@ class Alarm extends React.Component {
 
 
   render() {
-    this.createAlarmList();
+    //this.createAlarmList(); // I dont think this does anything anymore
     this.items = this.state.alarms.map((item, key) =>
-                                       <li key={item.id}>{item.alarm} {this.returnDays(item.days)} <span onClick={() => this.removeAlarm(item.id)}>Remove alarm here:</span> </li>
-                                    );
+                                             <li key={item.id}>{item.alarm} {item.daysString} <span onClick={() => this.removeAlarm(item.id)}>Remove alarm here:</span> </li>
+                                            );
     return (
       <div>
         <p>Current Time: {this.state.time}</p>
@@ -249,8 +232,13 @@ class Alarm extends React.Component {
 
           let alarms = this.state.alarms.slice();
           let alarmID = this.state.alarmCounter + 1;
-          console.log("the time");
+          console.log("values.checkboxGroup");
+          console.log(values.checkboxGroup);
           let inputValue = values.thetime;
+          let finalDays = this.returnDays(values.checkboxGroup);
+          console.log("final days");
+          console.log(finalDays)
+
 
           this.setState({
             alarmCounter: alarmID,
@@ -260,12 +248,12 @@ class Alarm extends React.Component {
                 id: this.state.alarmCounter,
                 alarm: inputValue,
                 days: values.checkboxGroup,
+                daysString: finalDays,
               }]),
           });
 
+          console.log(this.state.alarms);
 
-          console.log(this.state);
-          console.log(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
         }, 500);
       }}
@@ -349,9 +337,6 @@ class Alarm extends React.Component {
 
 
 
-        <p>Set an alarm here:</p>
-        <input type="time" id="alarm" name="setalarm"/>
-        <p onClick={() => this.addAlarm()}>SET!</p>
         <p>Alarms Currently Set:</p>
         <ul>{this.items}</ul>
       </div>
