@@ -1,8 +1,8 @@
 done - get alarm added with proper id for uniqueness
+done - how to say "Alarm 10:00 set for Monday, Wednesday, Friday". 
 
-- Stuck figuring out how to say "Alarm 10:00 set for Monday, Wednesday, Friday". allowing them to edit the days the alarm gets set for
+Next - allow days to be edited
 
-- allow specific days
 - Allow user to set pushup counts
 - keep record of # of pushups done total, daily, etc.
 - user to keep different workouts

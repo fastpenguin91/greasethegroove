@@ -10,6 +10,33 @@ const InputFeedback = ({ error }) =>
       error ? <div className={classNames("input-feedback")}>{error}</div> : null;
 
 
+class EditAlarm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editingAlarm: true,
+    }
+  }
+
+  render() {
+    const isEditing = this.state.editingAlarm;
+    let somevar;
+
+    if (isEditing) {
+      somevar = "no alarm is being edited";
+    } else {
+      somevar = "You are editing an alarm!";
+    }
+
+    return (
+      <div>{somevar}</div>
+    );
+  }
+}
+
+
+
 
 // Checkbox group
 class CheckboxGroup extends React.Component {
@@ -67,8 +94,6 @@ class CheckboxGroup extends React.Component {
   }
 }
 
-
-
 const Checkbox = ({
   field: { name, value, onChange,onBlur },
   form: { errors, touched, setFieldValue },
@@ -94,7 +119,6 @@ const Checkbox = ({
     </div>
   );
 };
-
 
 class Alarm extends React.Component {
   constructor(props){
@@ -208,12 +232,10 @@ class Alarm extends React.Component {
 
   }
 
-
-
   render() {
     //this.createAlarmList(); // I dont think this does anything anymore
     this.items = this.state.alarms.map((item, key) =>
-                                             <li key={item.id}>{item.alarm} {item.daysString} <span onClick={() => this.removeAlarm(item.id)}>Remove alarm here:</span> </li>
+                                       <li key={item.id}>{item.alarm} {item.daysString} <button onClick={() => this.removeAlarm(item.id)}>Remove</button><button onClick={() => this.editAlarm(item.id)}>Edit</button> </li>
                                             );
     return (
       <div>
@@ -331,14 +353,10 @@ class Alarm extends React.Component {
       )}
     />
 
-
-
-
-
-
-
         <p>Alarms Currently Set:</p>
         <ul>{this.items}</ul>
+
+        <EditAlarm />
       </div>
     );
   }
