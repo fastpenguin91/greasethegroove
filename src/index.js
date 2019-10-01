@@ -213,10 +213,13 @@ class Alarm extends React.Component {
 
   editAlarm(arg1){
     console.log("editing alarm #: " + arg1);
+    let obj = this.state.alarms.find(obj => obj.id == arg1);
+    console.log("obj is...");
+    console.log(obj);
     this.setState({
       alarmToEdit: {
-        checkboxGroup: this.state.alarms[1].days,
-        thetime: this.state.alarms[1].alarm,
+        checkboxGroup: obj.days,
+        thetime: obj.alarm,
       }
     });
     console.log("new state:");
