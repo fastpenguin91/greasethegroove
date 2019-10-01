@@ -10,33 +10,6 @@ const InputFeedback = ({ error }) =>
       error ? <div className={classNames("input-feedback")}>{error}</div> : null;
 
 
-class EditAlarm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      editingAlarm: true,
-    }
-  }
-
-  render() {
-    const isEditing = this.state.editingAlarm;
-    let somevar;
-
-    if (isEditing) {
-      somevar = "no alarm is being edited";
-    } else {
-      somevar = "You are editing an alarm!";
-    }
-
-    return (
-      <div>{somevar}</div>
-    );
-  }
-}
-
-
-
 
 // Checkbox group
 class CheckboxGroup extends React.Component {
@@ -47,6 +20,9 @@ class CheckboxGroup extends React.Component {
   handleChange = event => {
     const target = event.currentTarget;
     let valueArray = [...this.props.value] || [];
+
+    console.log("valueArray");
+    console.log(valueArray);
 
     if (target.checked) {
       valueArray.push(target.id);
@@ -132,7 +108,7 @@ class Alarm extends React.Component {
       alarms: [
         {
           id: 1,
-          alarm: "9:00",
+          alarm: "09:00",
           days: ["1"],
           daysString: "Sunday, ",
         },
@@ -142,6 +118,9 @@ class Alarm extends React.Component {
           days: ["2","4"],
           daysString: "Monday, Wednesday ",
         },],
+      alarmToEdit: {
+        checkboxGroup: ["5"],
+        thetime: "09:00"},
     };
   }
 
@@ -230,6 +209,18 @@ class Alarm extends React.Component {
     console.log(returnString);
     return returnString;
 
+  }
+
+  editAlarm(arg1){
+    console.log("editing alarm #: " + arg1);
+    this.setState({
+      alarmToEdit: {
+        checkboxGroup: this.state.alarms[1].days,
+        thetime: this.state.alarms[1].alarm,
+      }
+    });
+    console.log("new state:");
+    console.log(this.state.alarmToEdit);
   }
 
   render() {
@@ -356,7 +347,123 @@ class Alarm extends React.Component {
         <p>Alarms Currently Set:</p>
         <ul>{this.items}</ul>
 
-        <EditAlarm />
+        <p>Edit alarms with this form:</p>
+        <Formik enableReinitialize={true} id="lala"
+
+      initialValues={{
+        checkboxGroup: this.state.alarmToEdit.checkboxGroup,
+        thetime: this.state.alarmToEdit.thetime,
+//        checkboxGroup: this.state.alarms[1].days,
+//        thetime: this.state.alarms[0].alarm,
+
+      }}
+      onSubmit={(values, actions) => {
+        setTimeout(() => {
+
+          let alarms = this.state.alarms.slice();
+          let alarmID = this.state.alarmCounter + 1;
+          console.log("values.checkboxGroup");
+          console.log(values.checkboxGroup);
+          let inputValue = values.thetime;
+          let finalDays = this.returnDays(values.checkboxGroup);
+          console.log("final days");
+          console.log(finalDays)
+
+
+          this.setState({
+            alarmCounter: alarmID,
+            time: this.calculateTime(),
+            alarms: alarms.concat([
+              {
+                id: this.state.alarmCounter,
+                alarm: inputValue,
+                days: values.checkboxGroup,
+                daysString: finalDays,
+              }]),
+          });
+
+          console.log(this.state.alarms);
+
+          actions.setSubmitting(false);
+        }, 500);
+      }}
+      render={({
+        handleSubmit,
+        setFieldValue,
+        setFieldTouched,
+        values,
+        errors,
+        touched,
+        isSubmitting
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <Field type="time" name="thetime" />
+
+          <h2>Checkbox group</h2>
+          <CheckboxGroup
+            id="checkboxGroup"
+            label="Which of these?"
+            value={values.checkboxGroup}
+            error={errors.checkboxGroup}
+            touched={touched.checkboxGroup}
+            onChange={setFieldValue}
+            onBlur={setFieldTouched}
+          >
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="1"
+              label="Sunday"
+              value="true"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="2"
+              label="Monday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="3"
+              label="Tuesday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="4"
+              label="Wednesday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="5"
+              label="Thursday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="6"
+              label="Friday"
+            />
+            <Field
+              component={Checkbox}
+              name="alarmDay"
+              id="7"
+              label="Saturday"
+            />
+          </CheckboxGroup>
+
+
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </form>
+      )}
+    />
+
+
+
       </div>
     );
   }
