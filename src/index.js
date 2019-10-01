@@ -218,6 +218,7 @@ class Alarm extends React.Component {
     console.log(obj);
     this.setState({
       alarmToEdit: {
+        id: obj.id,
         checkboxGroup: obj.days,
         thetime: obj.alarm,
       }
@@ -245,8 +246,9 @@ class Alarm extends React.Component {
       onSubmit={(values, actions) => {
         setTimeout(() => {
 
+          console.log("Submitted the first form");
 
-          let alarms = this.state.alarms.slice();
+/*          let alarms = this.state.alarms.slice();
           let alarmID = this.state.alarmCounter + 1;
           console.log("values.checkboxGroup");
           console.log(values.checkboxGroup);
@@ -268,7 +270,7 @@ class Alarm extends React.Component {
               }]),
           });
 
-          console.log(this.state.alarms);
+          console.log(this.state.alarms);*/
 
           actions.setSubmitting(false);
         }, 500);
@@ -364,16 +366,53 @@ class Alarm extends React.Component {
         setTimeout(() => {
 
           let alarms = this.state.alarms.slice();
-          let alarmID = this.state.alarmCounter + 1;
-          console.log("values.checkboxGroup");
-          console.log(values.checkboxGroup);
+          var alarmID = this.state.alarmToEdit.id;
           let inputValue = values.thetime;
           let finalDays = this.returnDays(values.checkboxGroup);
-          console.log("final days");
-          console.log(finalDays)
+          let updatedAlarm = {};
+          let obj = alarms.find(obj => obj.id == this.state.alarmToEdit.id);
+          console.log("ready to edit obj: ");
+          console.log(obj);
+          updatedAlarm.alarm = inputValue;
+          updatedAlarm.days = values.checkboxGroup;
+          updatedAlarm.daysString = finalDays;
+          console.log("new obj");
+          console.log(updatedAlarm);
+
+          var filtered = alarms.filter(function(value, index, arr) {
+            console.log("value in filtered array");
+            console.log(value);
+            if (value.id !== alarmID) {
+              return value;
+            }
+          });
+          console.log("final filtered:");
+          console.log(filtered);
 
 
           this.setState({
+            time: this.calculateTime(),
+            alarms: filtered.concat([
+              {
+                id: alarmID,
+                alarm: inputValue,
+                days: values.checkboxGroup,
+                daysString: finalDays,
+              }]),
+            });
+
+/*          this.setState({
+            time: this.calculateTime(),
+            alarms: alarms.concat([
+              {
+                id: this.state.alarmCounter,
+                alarm: inputValue,
+                days: values.checkboxGroup,
+                daysString: finalDays,
+              }]),
+          });*/
+
+/*          this.setState({
             alarmCounter: alarmID,
             time: this.calculateTime(),
             alarms: alarms.concat([
@@ -383,9 +422,7 @@ class Alarm extends React.Component {
                 days: values.checkboxGroup,
                 daysString: finalDays,
               }]),
-          });
-
-          console.log(this.state.alarms);
+          });*/
 
           actions.setSubmitting(false);
         }, 500);
