@@ -1,0 +1,18 @@
+pwa.
+
+
+scoring   data flows down.
+
+reate scoring template... viewing..  edit  at least 3 components.
+
+routing component..
+
+ag grid - tool for tables.
+
+convert everything to functions. benefits of functions are less code.
+
+L
+
+ w
+
+virtual dump  - react.  before react updates any html elements it has simulated batch of html. Simulates web page. runs diffing algorithm. Checks if state object or props updates... 

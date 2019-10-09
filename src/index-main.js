@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import classNames from 'classnames';
@@ -96,34 +96,12 @@ const Checkbox = ({
   );
 };
 
-export default function CurrentTime(){
-  const [theTime, setTime] = useState(9);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log("runs every second");
-      setTime(calculateTime());
-    }, 1000 );
-  });
-
-  const calculateTime = () => {
-    let today = new Date();
-    let currentTime = today.getHours() + ":" + today.getMinutes();// + ":" + today.getSeconds();
-    return currentTime;
-  }
-
-  return (
-    <div data-testid='currentTime'>
-      Current time is: { theTime } From functional component
-    </div>);
-}
-
 class Alarm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       alarmCounter: 10, // not necessary when I use database. // Mongo or another nosql. 
-      time: 105,
+      time: 105,  // Time does not belong in state
 //      alarms: ["9:00", "10:00", "11:00", "12:00", "19:45"],
       alarms: [
         {
@@ -149,6 +127,7 @@ class Alarm extends React.Component {
     //let removeThis = alarms.find(obj => obj.id == arg1);
     const result = alarms.filter(alarms => alarms.id !== arg1);
     this.setState({
+      time: this.calculateTime(),
       alarms: result,
     });
 
@@ -184,7 +163,6 @@ class Alarm extends React.Component {
   componentDidMount() {
     this.interval = setInterval(() => this.setState({ time: this.calculateTime() }), 1000);
   }
-
   componentWillUnmount(){
     clearInterval(this.interval);
   }
@@ -192,19 +170,25 @@ class Alarm extends React.Component {
   returnDays(days){
     let i;
     let returnString = "";
+    console.log("days: ");
+    console.log(days);
     for(i = 0; i < days.length; i++) {
         switch (days[i]) {
         case "1":
           returnString += "Sunday, ";
+          console.log("matched case 1");
           break;
         case "2":
           returnString += "Monday, ";
+          console.log("matched case 2");
           break;
         case "3":
           returnString += "Tuesday, ";
+          console.log("matched case 3");
           break;
         case "4":
           returnString += "Wednesday, ";
+          console.log("matched case 4");
           break;
         case "5":
           returnString += "Thursday, ";
@@ -219,6 +203,8 @@ class Alarm extends React.Component {
           console.log("Nothing matched");
         }
     }
+    console.log("Return String is: ");
+    console.log(returnString);
     return returnString;
 
   }
@@ -258,14 +244,21 @@ class Alarm extends React.Component {
       onSubmit={(values, actions) => {
         setTimeout(() => {
 
+          console.log("Submitted the first form");
 
           let alarms = this.state.alarms.slice();
           let alarmID = this.state.alarmCounter + 1;
+          console.log("values.checkboxGroup");
+          console.log(values.checkboxGroup);
           let inputValue = values.thetime;
           let finalDays = this.returnDays(values.checkboxGroup);
+          console.log("final days");
+          console.log(finalDays)
+
 
           this.setState({
             alarmCounter: alarmID,
+            time: this.calculateTime(),
             alarms: alarms.concat([
               {
                 id: this.state.alarmCounter,
@@ -274,6 +267,8 @@ class Alarm extends React.Component {
                 daysString: finalDays,
               }]),
           });
+
+          console.log(this.state.alarms);
 
           actions.setSubmitting(false);
         }, 500);
@@ -394,6 +389,7 @@ class Alarm extends React.Component {
 
 
           this.setState({
+            time: this.calculateTime(),
             alarms: filtered.concat([
               {
                 id: alarmID,
@@ -404,6 +400,7 @@ class Alarm extends React.Component {
             });
 
 /*          this.setState({
+            time: this.calculateTime(),
             alarms: alarms.concat([
               {
                 id: this.state.alarmCounter,
@@ -415,6 +412,7 @@ class Alarm extends React.Component {
 
 /*          this.setState({
             alarmCounter: alarmID,
+            time: this.calculateTime(),
             alarms: alarms.concat([
               {
                 id: this.state.alarmCounter,
@@ -516,7 +514,6 @@ class App extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <CurrentTime />
           <Alarm />
         </div>
         <div className="game-info">
