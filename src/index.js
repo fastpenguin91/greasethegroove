@@ -4,6 +4,7 @@ import './index.css';
 import classNames from 'classnames';
 //import Basic from './form.js';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import CurrentTime from './CurrentTime';
 
 // Input feedback
 const InputFeedback = ({ error }) =>
@@ -96,26 +97,42 @@ const Checkbox = ({
   );
 };
 
-export default function CurrentTime(){
-  const [theTime, setTime] = useState(9);
+export default function Alarm2(){
+  const defaultState = [
+      {
+        id: 1,
+        alarm: "09:00",
+        days: ["1"],
+        daysString: "Sunday, ",
+      },
+      {
+        id: 2,
+        alarm: "10:00",
+        days: ["2","4"],
+        daysString: "Monday, Wednesday ",
+      },
+  ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log("runs every second");
-      setTime(calculateTime());
-    }, 1000 );
-  });
+  const [alarmState, setAlarmState] = useState(defaultState);
 
-  const calculateTime = () => {
-    let today = new Date();
-    let currentTime = today.getHours() + ":" + today.getMinutes();// + ":" + today.getSeconds();
-    return currentTime;
-  }
+  const removeAlarm = (arg1) => {
+    let alarms = alarmState.slice();
+    let alarmList;
+    const result = alarms.filter(alarms => alarms.id !== arg1);
+
+    setAlarmState(result);
+  };
+
+  let listAlarms = alarmState.map((item, key) =>
+                                         <li key={item.id}>{item.alarm} {item.daysString} <button onClick={() => removeAlarm(item.id)}>Remove</button><button>Edit</button></li>);
 
   return (
     <div data-testid='currentTime'>
-      Current time is: { theTime } From functional component
-    </div>);
+      <ul>{listAlarms}</ul>
+    </div>
+
+  );
+
 }
 
 class Alarm extends React.Component {
@@ -123,8 +140,7 @@ class Alarm extends React.Component {
     super(props);
     this.state = {
       alarmCounter: 10, // not necessary when I use database. // Mongo or another nosql. 
-      time: 105,
-//      alarms: ["9:00", "10:00", "11:00", "12:00", "19:45"],
+      //time: 105,
       alarms: [
         {
           id: 1,
@@ -159,12 +175,12 @@ class Alarm extends React.Component {
     let today = new Date();
     let currentTime = today.getHours() + ":" + today.getMinutes();// + ":" + today.getSeconds();
     return currentTime;
-  }
+  } // converted to const
 
   calculateDay() {
     let today = new Date();
     return today.getDay();
-  }
+  } // Where is this necessary?
 
   checkAlarmStatus(){
     let today = this.calculateDay();
@@ -246,7 +262,7 @@ class Alarm extends React.Component {
                                             );
     return (
       <div>
-        <p>Current Time: {this.state.time}</p>
+        <CurrentTime />
         <p>{this.checkAlarmStatus()}</p>
 
     <Formik
@@ -374,23 +390,15 @@ class Alarm extends React.Component {
           let finalDays = this.returnDays(values.checkboxGroup);
           let updatedAlarm = {};
           let obj = alarms.find(obj => obj.id == this.state.alarmToEdit.id);
-          console.log("ready to edit obj: ");
-          console.log(obj);
           updatedAlarm.alarm = inputValue;
           updatedAlarm.days = values.checkboxGroup;
           updatedAlarm.daysString = finalDays;
-          console.log("new obj");
-          console.log(updatedAlarm);
 
           var filtered = alarms.filter(function(value, index, arr) {
-            console.log("value in filtered array");
-            console.log(value);
             if (value.id !== alarmID) {
               return value;
             }
           });
-          console.log("final filtered:");
-          console.log(filtered);
 
 
           this.setState({
@@ -516,7 +524,7 @@ class App extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <CurrentTime />
+          <Alarm2 />
           <Alarm />
         </div>
         <div className="game-info">
