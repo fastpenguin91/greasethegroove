@@ -130,6 +130,7 @@ class Alarm extends React.Component {
                                             );
     return (
       <div>
+        <p>bla bla</p>
         <p>{this.checkAlarmStatus()}</p>
 
     <Formik

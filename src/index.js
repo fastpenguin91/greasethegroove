@@ -23,7 +23,7 @@ class App extends React.Component {
         <div className="game-board">
           <AlarmContextProvider >
             <Alarm2 />
-            <Alarm />
+            <p> --------- Class alarm below this line --------</p>
           </AlarmContextProvider>
         </div>
         <div className="game-info">
