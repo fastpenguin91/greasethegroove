@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function CurrentTime(){
+export default function CurrentTime(props){
   const [theTime, setTime] = useState(0);
 
   useEffect(() => {
@@ -42,6 +42,7 @@ export default function CurrentTime(){
     let currentTime = returnDayString(today.getDay()) + " " + today.getHours() + ":" + today.getMinutes();
     return currentTime;
   }
+
 
   return (
     <div data-testid='currentTime'>

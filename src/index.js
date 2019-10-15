@@ -128,6 +128,8 @@ export default function Alarm2(){
 
   return (
     <div data-testid='currentTime'>
+      <p>CurrentTime Component below...</p>
+      <CurrentTime />
       <ul>{listAlarms}</ul>
     </div>
 
