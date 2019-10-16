@@ -7,9 +7,12 @@ import UpdateAlarmList from '../components/UpdateAlarmList';
 
 
 export default function Alarm2(){
-  const { alarms, dispatch } = useContext(AlarmContext);
+  const { alarmObj, dispatch } = useContext(AlarmContext);
 
-  const defaultState = [
+//  console.log("alarmObj");
+//  console.log(alarmObj.alarmList);
+
+/*  const defaultState = [
       {
         id: 1,
         alarm: "09:00",
@@ -22,9 +25,9 @@ export default function Alarm2(){
         days: ["2","4"],
         daysString: "Monday, Wednesday ",
       },
-  ];
+  ];*/
 
-  const [alarmState, setAlarmState] = useState(defaultState);
+//  const [alarmState, setAlarmState] = useState(defaultState);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,10 +37,14 @@ export default function Alarm2(){
 
 
   const removeAlarm = (arg1) => {
-    let alarms = alarmState.slice();
+    let alarms = alarmObj.alarmList.slice();
     const result = alarms.filter(alarms => alarms.id !== arg1);
 
-    setAlarmState(result);
+    dispatch({ type: 'REMOVE_ALARM', id: arg1});
+
+
+
+//    setAlarmState(result);
   };
 
   const returnDayString = (days) => {
@@ -76,24 +83,24 @@ export default function Alarm2(){
   const submitAlarmForm = (vals) => {
 
     let newAlarm = {
-      id: alarmState.length + 1,
+      id: alarmObj.alarmList.length + 1,
       alarm: vals.thetime,
       days: vals.checkboxGroup,
       daysString: returnDayString(vals.checkboxGroup),
     };
 
-    setAlarmState([...alarmState, newAlarm]);
+//    setAlarmState([...alarmState, newAlarm]);
   };
 
-
-
-  let listAlarms = alarmState.map((item, key) =>
+  console.log("ummmm");
+  console.log(alarmObj.alarmList);
+  let listAlarms = alarmObj.alarmList.map((item, key) =>
                                          <li key={item.id}>{item.alarm} {item.daysString} <button onClick={() => removeAlarm(item.id)}>Remove</button><button>Edit</button></li>);
 
   return (
     <div data-testid='currentTime'>
       <UpdateAlarmList />
-      <p>Current Time: {alarms}</p>
+      <p>Current Time: {alarmObj.currentTime}</p>
       <h3>Alarms Currently Set:</h3>
       <ul>{listAlarms}</ul>
 

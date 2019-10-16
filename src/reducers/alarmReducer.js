@@ -14,8 +14,31 @@ export const alarmReducer = (state, action) => {
     return state;
   case 'GET_CURRENT_TIME':
     let today = new Date();
-    //    let currentTime = "day: " + today.getDay() + " hour: " + today.getHours() + "Min:" + today.getMinutes() + "seconds: " + today.getSeconds();
+    let alarmList = state.alarmList;
 
-    return today.toDateString() + " " + today.getHours() + ":" + today.getMinutes();
+    let newState = {
+      currentTime: today.toDateString() + " " + today.getHours() + ":" + today.getMinutes(),
+      alarmList: alarmList,
+    };
+    return newState;
+  case 'REMOVE_ALARM':
+    console.log("Just removed this alarm via alarmReducer:");
+    console.log(action.id);
+
+    let newAlarmList = state.alarmList.filter(alarm => alarm.id !== action.id);
+
+    let newAlarmState = {
+      currentTime: state.currentTime,
+      alarmList: newAlarmList,
+    };
+
+//    let alarms = alarmObj.alarmList.slice();
+    //    const result = alarms.filter(alarms => alarms.id !== arg1);
+
+    console.log("new state: ");
+    console.log(newAlarmList);
+
+
+    return newAlarmState;
   }
 }
