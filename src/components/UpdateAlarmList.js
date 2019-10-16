@@ -1,101 +1,29 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { AlarmContext } from '../contexts/AlarmContext';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import CheckboxGroup from '../components/CheckboxGroup';
 import Checkbox from '../components/Checkbox';
-import UpdateAlarmList from '../components/UpdateAlarmList';
 
 
-export default function Alarm2(){
-  const { alarms, dispatch } = useContext(AlarmContext);
+export default function UpdateAlarmList(){
 
-  const defaultState = [
-      {
-        id: 1,
-        alarm: "09:00",
-        days: ["1"],
-        daysString: "Sunday, ",
-      },
-      {
-        id: 2,
-        alarm: "10:00",
-        days: ["2","4"],
-        daysString: "Monday, Wednesday ",
-      },
-  ];
-
-  const [alarmState, setAlarmState] = useState(defaultState);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch({ type: 'GET_CURRENT_TIME'});
-    }, 1000);
-  });
-
-
-  const removeAlarm = (arg1) => {
-    let alarms = alarmState.slice();
-    const result = alarms.filter(alarms => alarms.id !== arg1);
-
-    setAlarmState(result);
-  };
-
-  const returnDayString = (days) => {
-    let i;
-    let returnString = "";
-    for(i = 0; i < days.length; i++) {
-      switch (days[i]) {
-      case "1":
-        returnString += "Sunday, ";
-        break;
-      case "2":
-        returnString += "Monday, ";
-        break;
-      case "3":
-        returnString += "Tuesday, ";
-        break;
-      case "4":
-        returnString += "Wednesday, ";
-        break;
-      case "5":
-        returnString += "Thursday, ";
-        break;
-      case "6":
-        returnString += "Friday, ";
-        break;
-      case "7":
-        returnString += "Saturday, ";
-        break;
-      default:
-        console.log("Nothing matched");
-      }
-    }
-    return returnString;
-  };
-
-  const submitAlarmForm = (vals) => {
+  /*const submitAlarmForm = (vals) => {
 
     let newAlarm = {
-      id: alarmState.length + 1,
+      id: props.alarmList.length + 1,
+      //id: alarmState.length + 1,
       alarm: vals.thetime,
       days: vals.checkboxGroup,
       daysString: returnDayString(vals.checkboxGroup),
     };
 
     setAlarmState([...alarmState, newAlarm]);
-  };
+  };*/
 
-
-
-  let listAlarms = alarmState.map((item, key) =>
-                                         <li key={item.id}>{item.alarm} {item.daysString} <button onClick={() => removeAlarm(item.id)}>Remove</button><button>Edit</button></li>);
 
   return (
-    <div data-testid='currentTime'>
-      <UpdateAlarmList />
-      <p>Current Time: {alarms}</p>
-      <h3>Alarms Currently Set:</h3>
-      <ul>{listAlarms}</ul>
+
+    <div>
+      Add your alarms here!!
 
       <Formik
         initialValues={{
@@ -105,8 +33,8 @@ export default function Alarm2(){
         }}
         onSubmit={(values, actions) => {
           setTimeout(() => {
-
-            submitAlarmForm(values);
+            console.log("tmp");
+            //submitAlarmForm(values);
 
             actions.setSubmitting(false);
           }, 500);
@@ -185,8 +113,9 @@ export default function Alarm2(){
         )}
       />
 
+
+
     </div>
 
-  );
-
+  )
 }

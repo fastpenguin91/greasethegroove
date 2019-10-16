@@ -18,4 +18,4 @@ export const alarmReducer = (state, action) => {
 
     return today.toDateString() + " " + today.getHours() + ":" + today.getMinutes();
   }
-} 
+}

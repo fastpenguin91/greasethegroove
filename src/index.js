@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import classNames from 'classnames';
 //import Basic from './form.js';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -11,7 +10,7 @@ import CheckboxGroup from './components/CheckboxGroup';
 import Checkbox from './components/Checkbox';
 import Alarm2 from './components/Alarm2';
 import Alarm from './components/Alarm';
-
+import UpdateAlarmList from './components/UpdateAlarmList';
 
 
 
@@ -23,6 +22,7 @@ class App extends React.Component {
         <div className="game-board">
           <AlarmContextProvider >
             <Alarm2 />
+            <UpdateAlarmList />
             <p> --------- Class alarm below this line --------</p>
           </AlarmContextProvider>
         </div>
