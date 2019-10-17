@@ -1,6 +1,8 @@
 import uuid from 'uuid/v4';
 
 export const alarmReducer = (state, action) => {
+  var newAlarmState;
+
   switch (action.type) {
   case 'ADD_BOOK':
     return [...state, {
@@ -27,17 +29,21 @@ export const alarmReducer = (state, action) => {
 
     let newAlarmList = state.alarmList.filter(alarm => alarm.id !== action.id);
 
-    let newAlarmState = {
+    newAlarmState = {
       currentTime: state.currentTime,
       alarmList: newAlarmList,
     };
 
-//    let alarms = alarmObj.alarmList.slice();
-    //    const result = alarms.filter(alarms => alarms.id !== arg1);
+    return newAlarmState;
 
-    console.log("new state: ");
-    console.log(newAlarmList);
+  case 'ADD_ALARM':
 
+    console.log("ADD_ALARM ran!");
+
+    newAlarmState = {
+      currentTime: state.currentTime,
+      alarmList: [...state.alarmList, action.newAlarmObj]
+    };
 
     return newAlarmState;
   }

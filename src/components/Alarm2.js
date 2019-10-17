@@ -9,43 +9,11 @@ import UpdateAlarmList from '../components/UpdateAlarmList';
 export default function Alarm2(){
   const { alarmObj, dispatch } = useContext(AlarmContext);
 
-//  console.log("alarmObj");
-//  console.log(alarmObj.alarmList);
-
-/*  const defaultState = [
-      {
-        id: 1,
-        alarm: "09:00",
-        days: ["1"],
-        daysString: "Sunday, ",
-      },
-      {
-        id: 2,
-        alarm: "10:00",
-        days: ["2","4"],
-        daysString: "Monday, Wednesday ",
-      },
-  ];*/
-
-//  const [alarmState, setAlarmState] = useState(defaultState);
-
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch({ type: 'GET_CURRENT_TIME'});
     }, 1000);
   });
-
-
-  const removeAlarm = (arg1) => {
-    let alarms = alarmObj.alarmList.slice();
-    const result = alarms.filter(alarms => alarms.id !== arg1);
-
-    dispatch({ type: 'REMOVE_ALARM', id: arg1});
-
-
-
-//    setAlarmState(result);
-  };
 
   const returnDayString = (days) => {
     let i;
@@ -89,17 +57,14 @@ export default function Alarm2(){
       daysString: returnDayString(vals.checkboxGroup),
     };
 
-//    setAlarmState([...alarmState, newAlarm]);
+    dispatch({ type: 'ADD_ALARM', newAlarmObj: newAlarm});
   };
 
-  console.log("ummmm");
-  console.log(alarmObj.alarmList);
   let listAlarms = alarmObj.alarmList.map((item, key) =>
-                                         <li key={item.id}>{item.alarm} {item.daysString} <button onClick={() => removeAlarm(item.id)}>Remove</button><button>Edit</button></li>);
+                                          <li key={item.id}>{item.alarm} {item.daysString} <button onClick={() => dispatch({ type: 'REMOVE_ALARM', id: item.id})}>Remove</button><button>Edit</button></li>);
 
   return (
     <div data-testid='currentTime'>
-      <UpdateAlarmList />
       <p>Current Time: {alarmObj.currentTime}</p>
       <h3>Alarms Currently Set:</h3>
       <ul>{listAlarms}</ul>

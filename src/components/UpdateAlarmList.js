@@ -33,7 +33,6 @@ export default function UpdateAlarmList(){
         }}
         onSubmit={(values, actions) => {
           setTimeout(() => {
-            console.log("tmp");
             //submitAlarmForm(values);
 
             actions.setSubmitting(false);
