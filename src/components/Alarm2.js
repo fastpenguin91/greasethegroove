@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AlarmContext } from '../contexts/AlarmContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import CheckboxGroup from '../components/CheckboxGroup';
@@ -65,6 +65,8 @@ export default function Alarm2(){
 
   return (
     <div data-testid='currentTime'>
+      <p>The final form!</p>
+      <UpdateAlarmList />
       <p>Current Time: {alarmObj.currentTime}</p>
       <h3>Alarms Currently Set:</h3>
       <ul>{listAlarms}</ul>

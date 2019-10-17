@@ -1,23 +1,60 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useContext } from 'react';
+//import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Field } from 'formik';
 import CheckboxGroup from '../components/CheckboxGroup';
 import Checkbox from '../components/Checkbox';
+import { AlarmContext } from '../contexts/AlarmContext';
 
 
 export default function UpdateAlarmList(){
+  const { alarmObj, dispatch } = useContext(AlarmContext);
 
-  /*const submitAlarmForm = (vals) => {
+  const returnDayString = (days) => {
+    let i;
+    let returnString = "";
+    for(i = 0; i < days.length; i++) {
+      switch (days[i]) {
+      case "1":
+        returnString += "Sunday, ";
+        break;
+      case "2":
+        returnString += "Monday, ";
+        break;
+      case "3":
+        returnString += "Tuesday, ";
+        break;
+      case "4":
+        returnString += "Wednesday, ";
+        break;
+      case "5":
+        returnString += "Thursday, ";
+        break;
+      case "6":
+        returnString += "Friday, ";
+        break;
+      case "7":
+        returnString += "Saturday, ";
+        break;
+      default:
+        console.log("Nothing matched");
+      }
+    }
+    return returnString;
+  };
+
+  const submitAlarmForm = (vals) => {
 
     let newAlarm = {
-      id: props.alarmList.length + 1,
-      //id: alarmState.length + 1,
+      id: alarmObj.alarmList.length + 1,
       alarm: vals.thetime,
       days: vals.checkboxGroup,
       daysString: returnDayString(vals.checkboxGroup),
     };
 
-    setAlarmState([...alarmState, newAlarm]);
-  };*/
+    dispatch({ type: 'ADD_ALARM', newAlarmObj: newAlarm});
+
+    //setAlarmState([...alarmState, newAlarm]);
+  };
 
 
   return (
@@ -33,7 +70,7 @@ export default function UpdateAlarmList(){
         }}
         onSubmit={(values, actions) => {
           setTimeout(() => {
-            //submitAlarmForm(values);
+            submitAlarmForm(values);
 
             actions.setSubmitting(false);
           }, 500);
