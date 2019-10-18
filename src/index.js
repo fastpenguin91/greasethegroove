@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 //import { Formik, Form, Field, ErrorMessage } from 'formik';
 //import CurrentTime from './CurrentTime';
 import AlarmContextProvider from './contexts/AlarmContext';
+import CurrentTimeContextProvider from './contexts/CurrentTimeContext';
 //import { AlarmContext } from './contexts/AlarmContext';
 //import CheckboxGroup from './components/CheckboxGroup';
 //import Checkbox from './components/Checkbox';
@@ -20,11 +21,13 @@ class App extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <AlarmContextProvider >
-            <Alarm2 />
-            <UpdateAlarmList />
-            <p> --------- Class alarm below this line --------</p>
-          </AlarmContextProvider>
+          <CurrentTimeContextProvider >
+            <AlarmContextProvider >
+              <Alarm2 />
+              <UpdateAlarmList />
+              <p> --------- Class alarm below this line --------</p>
+            </AlarmContextProvider>
+          </CurrentTimeContextProvider>
         </div>
         <div className="game-info">
           <div>{/* status */}</div>

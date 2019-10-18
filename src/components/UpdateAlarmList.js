@@ -7,7 +7,7 @@ import { AlarmContext } from '../contexts/AlarmContext';
 
 
 export default function UpdateAlarmList(){
-  const { alarmObj, dispatch } = useContext(AlarmContext);
+  const { alarmList, dispatch } = useContext(AlarmContext);
 
   const returnDayString = (days) => {
     let i;
@@ -45,15 +45,14 @@ export default function UpdateAlarmList(){
   const submitAlarmForm = (vals) => {
 
     let newAlarm = {
-      id: alarmObj.alarmList.length + 1,
+      id: alarmList.length + 1,
       alarm: vals.thetime,
       days: vals.checkboxGroup,
       daysString: returnDayString(vals.checkboxGroup),
     };
 
-    dispatch({ type: 'ADD_ALARM', newAlarmObj: newAlarm});
+    dispatch({ type: 'ADD_ALARM', newAlarmList: newAlarm});
 
-    //setAlarmState([...alarmState, newAlarm]);
   };
 
 

@@ -4,9 +4,9 @@ import InputFeedback from './InputFeedback';
 
 // Checkbox group
 class CheckboxGroup extends React.Component {
-  constructor(props) {
+/*  constructor(props) {
     super(props);
-  }
+  } no useless constructor?*/
 
   handleChange = event => {
     const target = event.currentTarget;
