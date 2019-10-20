@@ -51,10 +51,7 @@ export default function UpdateAlarmList(){
       daysString: returnDayString(vals.checkboxGroup),
     };
 
-    console.log("new Alarm function");
-    console.log(newAlarm);
-
-    dispatch({ type: 'ADD_ALARM', alarmVals: newAlarm});
+    dispatch({ type: 'UPDATE_ALARMLIST', alarmVals: newAlarm});
 
   };
 
@@ -62,7 +59,8 @@ export default function UpdateAlarmList(){
   return (
 
     <div>
-      Add your alarms here!!
+      <h2>Add/Update your alarms here!!</h2>
+      <button onClick={() => dispatch({ type: 'CLEAR_FORM'})}>Clear Form</button>
 
       <Formik enableReinitialize={true}
         initialValues={{
@@ -88,9 +86,10 @@ export default function UpdateAlarmList(){
           isSubmitting
         }) => (
           <form onSubmit={handleSubmit}>
+            <h3>Set Time:</h3>
             <Field type="time" name="thetime" />
 
-            <h2>Checkbox group</h2>
+            <h2>Set Days:</h2>
             <CheckboxGroup
               id="checkboxGroup"
               label="Which of these?"

@@ -3,8 +3,18 @@ export const alarmReducer = (state, action) => {
 
   switch (action.type) {
   case 'REMOVE_ALARM':
-    return state.filter(alarm => alarm.id !== action.id);
-  case 'ADD_ALARM':
+//    return state.filter(alarm => alarm.id !== action.id);
+    return {
+      alarmList: state.alarmList.filter(alarm => alarm.id !== action.id),
+      alarmToEdit: {id: '', checkboxGroup: [], thetime: ''},
+    }
+    state.filter(alarm => alarm.id !== action.id);
+  case 'CLEAR_FORM':
+    return {
+      alarmList: state.alarmList,
+      alarmToEdit: {id: '', checkboxGroup: [], thetime: ''},
+    }
+  case 'UPDATE_ALARMLIST':
     let newState;
     // test to see if this is a new alarm or an existing one being edited.
     // Pass in newAlarm via action.newAlarm. If newAlarm's id already exists in the state then it's being edited.
@@ -12,12 +22,14 @@ export const alarmReducer = (state, action) => {
       let filteredList = state.alarmList.filter(alarm => alarm.id !== action.alarmVals.id);
       newState = {
         alarmList: [...filteredList, action.alarmVals],
-        alarmToEdit: state.alarmToEdit,
+        alarmToEdit: {id: '', checkboxGroup: [], thetime: ''},
+//        alarmToEdit: state.alarmToEdit,
       };
     } else {
       newState = {
         alarmList: [...state.alarmList, action.alarmVals],
-        alarmToEdit: state.alarmToEdit,
+        alarmToEdit: {id: '', checkboxGroup: [], thetime: ''},
+//        alarmToEdit: state.alarmToEdit,
       }
     }
 
