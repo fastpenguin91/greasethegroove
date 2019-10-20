@@ -7,7 +7,7 @@ import { AlarmContext } from '../contexts/AlarmContext';
 
 
 export default function UpdateAlarmList(){
-  const { alarmList, dispatch } = useContext(AlarmContext);
+  const { alarmObj, dispatch } = useContext(AlarmContext);
 
   const returnDayString = (days) => {
     let i;
@@ -45,13 +45,16 @@ export default function UpdateAlarmList(){
   const submitAlarmForm = (vals) => {
 
     let newAlarm = {
-      id: alarmList.length + 1,
+      id: alarmObj.alarmToEdit.id ? alarmObj.alarmToEdit.id : alarmObj.alarmList.length + 1,
       alarm: vals.thetime,
       days: vals.checkboxGroup,
       daysString: returnDayString(vals.checkboxGroup),
     };
 
-    dispatch({ type: 'ADD_ALARM', newAlarmList: newAlarm});
+    console.log("new Alarm function");
+    console.log(newAlarm);
+
+    dispatch({ type: 'ADD_ALARM', alarmVals: newAlarm});
 
   };
 
@@ -61,16 +64,17 @@ export default function UpdateAlarmList(){
     <div>
       Add your alarms here!!
 
-      <Formik
+      <Formik enableReinitialize={true}
         initialValues={{
-          checkboxGroup: [],
-          thetime: '',
+          checkboxGroup: alarmObj.alarmToEdit.checkboxGroup,
+          thetime: alarmObj.alarmToEdit.thetime,
 
         }}
         onSubmit={(values, actions) => {
           setTimeout(() => {
             submitAlarmForm(values);
 
+            actions.resetForm();
             actions.setSubmitting(false);
           }, 500);
         }}

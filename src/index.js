@@ -25,7 +25,6 @@ class App extends React.Component {
             <AlarmContextProvider >
               <Alarm2 />
               <UpdateAlarmList />
-              <p> --------- Class alarm below this line --------</p>
             </AlarmContextProvider>
           </CurrentTimeContextProvider>
         </div>
