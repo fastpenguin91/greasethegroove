@@ -6,8 +6,11 @@ import Checkbox from '../components/Checkbox';
 import { AlarmContext } from '../contexts/AlarmContext';
 
 
+
 export default function UpdateAlarmList(){
   const { alarmObj, dispatch } = useContext(AlarmContext);
+  const isEditingForm = alarmObj.alarmToEdit.id.length == 0 ? false : true;
+
 
   const returnDayString = (days) => {
     let i;
@@ -42,6 +45,12 @@ export default function UpdateAlarmList(){
     return returnString;
   };
 
+  const clearFormButton = () => {
+    if (isEditingForm) {
+      return <button onClick={() => dispatch({ type: 'CLEAR_FORM'})}>Clear Form</button>
+    }
+  }
+
   const submitAlarmForm = (vals) => {
 
     let newAlarm = {
@@ -60,7 +69,7 @@ export default function UpdateAlarmList(){
 
     <div>
       <h2>Add/Update your alarms here!!</h2>
-      <button onClick={() => dispatch({ type: 'CLEAR_FORM'})}>Clear Form</button>
+      {clearFormButton()}
 
       <Formik enableReinitialize={true}
         initialValues={{
