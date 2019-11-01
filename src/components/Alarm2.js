@@ -14,6 +14,19 @@ export default function Alarm2(){
     }, 1000);
   });
 
+  const checkAlarmStatus = () => {
+    var i;
+    for(i = 0; i < alarmObj.alarmList.length; i++) {
+      if(currentTime == alarmObj.alarmList[i].alarm) {
+        console.log("if");
+        console.log(alarmObj.alarmList);
+        console.log(currentTime);
+      } else {
+        console.log("else");
+      }
+    }
+  }
+
   const editAlarm = (alarmID) => {
     console.log("editing alarm #: " + alarmID);
 
@@ -27,6 +40,7 @@ export default function Alarm2(){
   return (
     <div data-testid='currentTime'>
       <p>Current Time: {currentTime}</p>
+      <p>{checkAlarmStatus()}</p>
       <h3>Alarms Currently Set:</h3>
       <ul>{listAlarms}</ul>
     </div>
