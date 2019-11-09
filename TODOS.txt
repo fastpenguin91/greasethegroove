@@ -7,3 +7,8 @@ Next - allow days to be edited
 - keep record of # of pushups done total, daily, etc.
 - user to keep different workouts
 - Allow user to delay 3min, 5min, 10min
+
+
+Tables:
+
+  - alarm, days, id

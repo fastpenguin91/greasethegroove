@@ -12,7 +12,7 @@ import CurrentTimeContextProvider from './contexts/CurrentTimeContext';
 import Alarm2 from './components/Alarm2';
 //import Alarm from './components/Alarm';
 import UpdateAlarmList from './components/UpdateAlarmList';
-
+import Exercises from './components/Exercises';
 
 
 
@@ -23,6 +23,7 @@ class App extends React.Component {
         <div className="game-board">
           <CurrentTimeContextProvider >
             <AlarmContextProvider >
+              <Exercises />
               <Alarm2 />
               <UpdateAlarmList />
             </AlarmContextProvider>
