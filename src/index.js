@@ -1,38 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 //import classNames from 'classnames';
-//import Basic from './form.js';
-//import { Formik, Form, Field, ErrorMessage } from 'formik';
-//import CurrentTime from './CurrentTime';
 import AlarmContextProvider from './contexts/AlarmContext';
 import CurrentTimeContextProvider from './contexts/CurrentTimeContext';
-//import { AlarmContext } from './contexts/AlarmContext';
-//import CheckboxGroup from './components/CheckboxGroup';
-//import Checkbox from './components/Checkbox';
-import Alarm2 from './components/Alarm2';
-//import Alarm from './components/Alarm';
+import Alarm from './components/Alarm';
 import UpdateAlarmList from './components/UpdateAlarmList';
 import Exercises from './components/Exercises';
-
+import Header from './components/Header';
 
 
 class App extends React.Component {
   render() {
     return (
-      <div className="game">
-        <div className="game-board">
-          <CurrentTimeContextProvider >
-            <AlarmContextProvider >
-              <Exercises />
-              <Alarm2 />
-              <UpdateAlarmList />
-            </AlarmContextProvider>
-          </CurrentTimeContextProvider>
-        </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-        </div>
-      </div>
+      <Router >
+        <Switch>
+          <div className="game">
+            <CurrentTimeContextProvider >
+              <AlarmContextProvider >
+                <Route path="/">
+                  <Header />
+                  <Alarm />
+                  <UpdateAlarmList />
+                </Route>
+                <Route path="/alarms">
+                  <Header />
+                  <Alarm />
+                </Route>
+                <UpdateAlarmList />
+              </AlarmContextProvider>
+            </CurrentTimeContextProvider>
+          </div>
+        </Switch>
+      </Router >
     );
   }
 }

@@ -1,0 +1,13 @@
+
+.header {
+    background: lightgreen;
+    margin: 0;
+    text-align: center;
+}
+
+.header span {
+    margin: 10px;
+    font-weight: bold;
+    font-size: 24px;
+    
+}
