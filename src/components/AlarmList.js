@@ -1,10 +1,43 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { AlarmContext } from '../contexts/AlarmContext';
 import UpdateAlarmList from '../components/UpdateAlarmList';
 import { CurrentTimeContext } from '../contexts/CurrentTimeContext';
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
+import RemoveAlarm from './RemoveAlarm.js';
 
+function getDayString(arr){
+  let dayString = "";
+
+  for (let i=0; i < arr.length; i++){
+    let expr = arr[i];
+    switch(expr) {
+    case 0:
+      dayString += "Sunday ";
+      break;
+    case 1:
+      dayString += "Monday ";
+      break;
+    case 2:
+      dayString += "Tuesday ";
+      break;
+    case 3:
+      dayString += "Wednesday ";
+      break;
+    case 4:
+      dayString += "Thursday ";
+      break;
+    case 5:
+      dayString += "Friday ";
+      break;
+    case 6:
+      dayString += "Saturday ";
+      break;
+    }
+  }
+
+  return dayString;
+  
+}
 
 export default function AlarmList(){
 
@@ -19,7 +52,7 @@ export default function AlarmList(){
   `;
 
   const { loading, error, data } = useQuery(GET_USER_ALARMS, {
-    pollInterval: 500,
+    pollInterval: 100,
     
   });
 
@@ -40,9 +73,9 @@ export default function AlarmList(){
 
   return (
     <div data-testid='currentTime'>
-      <p>I a a little teapot</p>
+      <h3>Alarms Currently Set:</h3>
       <ul>{data.alarms.map((item, index) => {
-        return <li>{item.ringTime} <button>lala</button></li>
+        return <li>{item.ringTime} {getDayString(item.days)} <RemoveAlarm alarmID={item.id}/></li>
       })}</ul>
     </div>
 

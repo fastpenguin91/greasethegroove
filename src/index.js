@@ -14,7 +14,8 @@ import AlarmG from './components/AlarmG';
 import UpdateAlarmList from './components/UpdateAlarmList';
 import Exercises from './components/Exercises';
 import Header from './components/Header';
-import BetterAlarms from './components/BetterAlarms';
+import AlarmList from './components/AlarmList';
+import AddAlarm from './components/AddAlarm';
 
 import { ApolloProvider } from "react-apollo";
 import { ApolloClient } from "apollo-client";
@@ -40,15 +41,13 @@ class App extends React.Component {
         <Switch>
           <div className="game">
             <CurrentTimeContextProvider >
-              <AlarmContextProvider >
-                <Route path="/">
-                  <Header />
-                </Route>
-                <Route exact path="/alarms">
-                  <BetterAlarms />
-                  <AlarmG/>
-                </Route>
-              </AlarmContextProvider>
+              <Route path="/">
+                <Header />
+              </Route>
+              <Route exact path="/alarms">
+                <AddAlarm />
+                <AlarmList />
+              </Route>
             </CurrentTimeContextProvider>
           </div>
         </Switch>

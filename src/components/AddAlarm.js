@@ -95,8 +95,6 @@ export default function AddAlarm(props){
   function handleSubmit(e){
     let checkboxArr = prepareCheckboxArray();
     e.preventDefault();
-    console.log("calling testFunc");
-    props.test(ringTime, checkboxArr);
     addAlarm({ variables: {ringTime: ringTime, days: checkboxArr, ownerEmail: "susie@susie.com"}})
     setCheckboxes(initialCheckboxState);
     setRingTime("");
