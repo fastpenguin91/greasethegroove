@@ -1,32 +1,18 @@
-import React from 'react';
-import classNames from 'classnames';
-import InputFeedback from './InputFeedback';
+import React from "react";
 
-
-const Checkbox = ({
-  field: { name, value, onChange,onBlur },
-  form: { errors, touched, setFieldValue },
-  id,
-  label,
-  className,
-  ...props
-}) => {
-  return (
-    <div>
+const Checkbox = ({ label, isSelected, onCheckboxChange }) => (
+  <div className="form-check">
+    <label>
       <input
-        name={name}
-        id={id}
         type="checkbox"
-        value={value}
-        checked={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        className={classNames("radio-button")}
+        name={label}
+        checked={isSelected}
+        onChange={onCheckboxChange}
+        className="form-check-input"
       />
-      <label htmlFor={id}>{label}</label>
-      {touched[name] && <InputFeedback error={errors[name]} />}
-    </div>
-  );
-};
+      {label}
+    </label>
+  </div>
+);
 
 export default Checkbox;

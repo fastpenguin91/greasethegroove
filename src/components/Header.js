@@ -10,7 +10,7 @@ import {
 
 
 export default function Header() {
-  return (<div class="header">
+  return (<div className="header">
             <span>Exercise History</span>
             <Link to="/alarms">Alarms</Link>
           <span>Alarms</span>

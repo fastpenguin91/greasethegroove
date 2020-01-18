@@ -10,9 +10,27 @@ import {
 import AlarmContextProvider from './contexts/AlarmContext';
 import CurrentTimeContextProvider from './contexts/CurrentTimeContext';
 import Alarm from './components/Alarm';
+import AlarmG from './components/AlarmG';
 import UpdateAlarmList from './components/UpdateAlarmList';
 import Exercises from './components/Exercises';
 import Header from './components/Header';
+import BetterAlarms from './components/BetterAlarms';
+
+import { ApolloProvider } from "react-apollo";
+import { ApolloClient } from "apollo-client";
+import { createHttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
+
+const httpLink = createHttpLink({
+  //uri: 'https://us1.prisma.sh/fastpenguin91-c6edf8/gtg/dev'
+  uri: 'https://aqueous-cove-86488.herokuapp.com/'
+});
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+});
+
 
 
 class App extends React.Component {
@@ -25,14 +43,11 @@ class App extends React.Component {
               <AlarmContextProvider >
                 <Route path="/">
                   <Header />
-                  <Alarm />
-                  <UpdateAlarmList />
                 </Route>
-                <Route path="/alarms">
-                  <Header />
-                  <Alarm />
+                <Route exact path="/alarms">
+                  <BetterAlarms />
+                  <AlarmG/>
                 </Route>
-                <UpdateAlarmList />
               </AlarmContextProvider>
             </CurrentTimeContextProvider>
           </div>
@@ -45,6 +60,8 @@ class App extends React.Component {
 // ========================================
 
 ReactDOM.render(
-  <App />,
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
   document.getElementById('root')
 );
