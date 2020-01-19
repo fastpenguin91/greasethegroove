@@ -136,6 +136,9 @@ export default function UpdateAlarm(props){
         position="right center"
         onClose={closeModal}
       >
+        <a className="close" onClick={closeModal}>
+          &times;
+        </a>
         <form onSubmit={handleSubmit}>
           <input type="hidden" value={props.currentData.id} name="id"/>
           <label>
