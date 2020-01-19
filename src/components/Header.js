@@ -2,10 +2,7 @@ import React from 'react';
 import '../styles/app.css';
 import '../styles/header.css';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+  BrowserRouter as Link
 } from "react-router-dom";
 
 

@@ -1,7 +1,6 @@
-import React, {Component } from 'react';
+import React from 'react';
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
-import Checkbox from "./Checkbox.js";
 
 const REMOVE_ALARM = gql`
     mutation RemoveAlarm($id: ID!) {
@@ -13,7 +12,7 @@ const REMOVE_ALARM = gql`
 
 export default function RemoveAlarm(props){
 
-  const [removeAlarm, { data }, refetch] = useMutation(REMOVE_ALARM);
+  const [removeAlarm, { data }] = useMutation(REMOVE_ALARM);
 
   function handleRemove(){
     console.log("removed");

@@ -4,11 +4,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
 } from "react-router-dom";
 //import classNames from 'classnames';
 import CurrentTimeContextProvider from './contexts/CurrentTimeContext';
-import Exercises from './components/Exercises';
+//import Exercises from './components/Exercises';
 import Header from './components/Header';
 import AlarmList from './components/AlarmList';
 import AddAlarm from './components/AddAlarm';

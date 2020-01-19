@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react';
-import { CurrentTimeContext } from '../contexts/CurrentTimeContext';
+import React from 'react';
 import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery} from "@apollo/react-hooks";
 import RemoveAlarm from './RemoveAlarm.js';
 import UpdateAlarm from './UpdateAlarm.js';
 
@@ -73,7 +72,7 @@ export default function AlarmList(){
     <div data-testid='currentTime'>
       <h3>Alarms Currently Set:</h3>
       <ul>{data.alarms.map((item, index) => {
-        return <li>{item.ringTime} {getDayString(item.days)} <UpdateAlarm currentData={item} /> <RemoveAlarm alarmID={item.id}/></li>
+        return <li key={item.id}>{item.ringTime} {getDayString(item.days)} <UpdateAlarm currentData={item} /> <RemoveAlarm alarmID={item.id}/></li>
       })}</ul>
     </div>
 

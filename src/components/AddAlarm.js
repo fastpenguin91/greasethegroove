@@ -1,6 +1,5 @@
-import React, {Component, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 //import UpdateAlarmList from '../components/UpdateAlarmList';
-import { CurrentTimeContext } from '../contexts/CurrentTimeContext';
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import Checkbox from "./Checkbox.js";
@@ -26,7 +25,7 @@ export default function AddAlarm(props){
 
 //    const { loading, error, data } = useMutation(REMOVE_ALARM);
 
-  const [addAlarm, { data }, refetch] = useMutation(ADD_ALARM);
+  const [addAlarm, { data }] = useMutation(ADD_ALARM);
 
 
   let initialCheckboxState = {
@@ -102,6 +101,7 @@ export default function AddAlarm(props){
   const createCheckbox = option => {
     return (
       <Checkbox
+        key={checkboxes[option].val}
         label={option}
         isSelected={checkboxes[option].checked}
         onCheckboxChange={handleCheckboxChange}
