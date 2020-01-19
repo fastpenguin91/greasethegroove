@@ -59,8 +59,22 @@ export default function UpdateAlarm(props){
   }
   const OPTIONS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday" ];
 
+  let initialPopupState = { open: false};
+
   const [checkboxes, setCheckboxes] = useState(initialCheckboxState);
   const [ringTime, setRingTime] = useState(props.currentData.ringTime);
+  const [popupState, setPopupState] = useState(initialPopupState);
+
+
+  const openModal = () => {
+    let newState = { open: true}
+    setPopupState(newState);
+  }
+
+  const closeModal = () => {
+    let newState = { open: false}
+    setPopupState(newState);
+  }
 
   const handleCheckboxChange = e => {
     const { name } = e.target;
@@ -112,15 +126,25 @@ export default function UpdateAlarm(props){
 
   return (
     // <button onClick={updateForm}>Update</button>
-    <Popup trigger={<button>Update</button>} position="right center">
-      <form onSubmit={handleSubmit}>
-        <input type="hidden" value={props.currentData.id} name="id"/>
-        <label>
-          Ring Time:
-          <input type="time" value={ringTime} onChange={handleTimeChange} name="ringTime" required/></label>
-        {createCheckboxes()}
-        <input type="submit" value="Update Alarm"/>
-      </form>
-    </Popup>
+    // <Popup trigger={<button>Update</button>} position="right center">
+    <div>
+      <button className="button" onClick={openModal}>
+        Update
+      </button>
+      <Popup
+        open={popupState.open}
+        position="right center"
+        onClose={closeModal}
+      >
+        <form onSubmit={handleSubmit}>
+          <input type="hidden" value={props.currentData.id} name="id"/>
+          <label>
+            Ring Time:
+            <input type="time" value={ringTime} onChange={handleTimeChange} name="ringTime" required/></label>
+          {createCheckboxes()}
+          <input type="submit" value="Update Alarm"/>
+        </form>
+      </Popup>
+    </div>
   );
 }
