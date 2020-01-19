@@ -34,7 +34,6 @@ class App extends React.Component {
     return (
       <Router >
         <Switch>
-          <div className="game">
             <CurrentTimeContextProvider >
               <Route path="/">
                 <Header />
@@ -42,7 +41,6 @@ class App extends React.Component {
                 <AlarmList />
               </Route>
             </CurrentTimeContextProvider>
-          </div>
         </Switch>
       </Router >
     );

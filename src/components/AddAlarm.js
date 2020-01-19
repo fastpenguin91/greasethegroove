@@ -23,9 +23,7 @@ const ADD_ALARM = gql`
 
 export default function AddAlarm(props){
 
-//    const { loading, error, data } = useMutation(REMOVE_ALARM);
-
-  const [addAlarm, { data }] = useMutation(ADD_ALARM);
+  const [addAlarm] = useMutation(ADD_ALARM);
 
 
   let initialCheckboxState = {

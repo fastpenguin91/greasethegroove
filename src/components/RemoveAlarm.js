@@ -12,7 +12,7 @@ const REMOVE_ALARM = gql`
 
 export default function RemoveAlarm(props){
 
-  const [removeAlarm, { data }] = useMutation(REMOVE_ALARM);
+  const [removeAlarm] = useMutation(REMOVE_ALARM);
 
   function handleRemove(){
     console.log("removed");

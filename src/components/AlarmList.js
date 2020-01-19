@@ -31,6 +31,8 @@ function getDayString(arr){
     case 6:
       dayString += "Saturday ";
       break;
+    default:
+      console.log("something went wrong when creating the alarm list");
     }
   }
 
