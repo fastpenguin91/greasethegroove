@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { AlarmContext } from '../contexts/AlarmContext';
-import UpdateAlarmList from '../components/UpdateAlarmList';
+//import UpdateAlarmList from '../components/UpdateAlarmList';
 import { CurrentTimeContext } from '../contexts/CurrentTimeContext';
 
 
 export default function Alarm(){
   const { currentTime, timeDispatch } = useContext(CurrentTimeContext);
-  const { alarmObj, dispatch } = useContext(AlarmContext);
+//  const { alarmObj, dispatch } = useContext(AlarmContext);
 
   useEffect(() => {
     setInterval(() => {

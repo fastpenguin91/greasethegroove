@@ -7,11 +7,7 @@ import {
   Redirect
 } from "react-router-dom";
 //import classNames from 'classnames';
-import AlarmContextProvider from './contexts/AlarmContext';
 import CurrentTimeContextProvider from './contexts/CurrentTimeContext';
-import Alarm from './components/Alarm';
-import AlarmG from './components/AlarmG';
-import UpdateAlarmList from './components/UpdateAlarmList';
 import Exercises from './components/Exercises';
 import Header from './components/Header';
 import AlarmList from './components/AlarmList';
@@ -43,8 +39,6 @@ class App extends React.Component {
             <CurrentTimeContextProvider >
               <Route path="/">
                 <Header />
-              </Route>
-              <Route exact path="/alarms">
                 <AddAlarm />
                 <AlarmList />
               </Route>

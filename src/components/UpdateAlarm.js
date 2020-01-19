@@ -4,12 +4,12 @@ import { CurrentTimeContext } from '../contexts/CurrentTimeContext';
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import Checkbox from "./Checkbox.js";
+import Popup from "reactjs-popup";
 
 
-
-const ADD_ALARM = gql`
-    mutation AddAlarm($ringTime: String!, $days: [Int!]!, $ownerEmail: String! ) {
-      createAlarm(ringTime: $ringTime, days: $days, ownerEmail: $ownerEmail) {
+const UPDATE_ALARM = gql`
+    mutation UpdateAlarm($ringTime: String!, $days: [Int!]!, $alarmID: String! ) {
+      updateAlarm(ringTime: $ringTime, days: $days, alarmID: $alarmID) {
         id
         days
         ringTime
@@ -22,47 +22,46 @@ const ADD_ALARM = gql`
   `;
 
 
-export default function AddAlarm(props){
+export default function UpdateAlarm(props){
 
-//    const { loading, error, data } = useMutation(REMOVE_ALARM);
 
-  const [addAlarm, { data }, refetch] = useMutation(ADD_ALARM);
+  const [updateAlarm, { data }, refetch] = useMutation(UPDATE_ALARM);
 
 
   let initialCheckboxState = {
     sunday: {
-      checked: false,
+      checked: props.currentData.days.includes(0) ? true : false,
       val: 0
     },
     monday: {
-      checked: false,
+      checked: props.currentData.days.includes(1) ? true :  false,
       val: 1
     },
     tuesday: {
-      checked: false,
+      checked: props.currentData.days.includes(2) ? true :  false,
       val: 2
     },
     wednesday: {
-      checked: false,
+      checked: props.currentData.days.includes(3) ? true :  false,
       val: 3
     },
     thursday: {
-      checked: false,
+      checked: props.currentData.days.includes(4) ? true :  false,
       val: 4
     },
     friday: {
-      checked: false,
+      checked: props.currentData.days.includes(5) ? true :  false,
       val: 5
     },
     saturday: {
-      checked: false,
+      checked: props.currentData.days.includes(6) ? true :  false,
       val: 6
     },
   }
   const OPTIONS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday" ];
 
   const [checkboxes, setCheckboxes] = useState(initialCheckboxState);
-  const [ringTime, setRingTime] = useState("");
+  const [ringTime, setRingTime] = useState(props.currentData.ringTime);
 
   const handleCheckboxChange = e => {
     const { name } = e.target;
@@ -94,9 +93,9 @@ export default function AddAlarm(props){
   function handleSubmit(e){
     let checkboxArr = prepareCheckboxArray();
     e.preventDefault();
-    addAlarm({ variables: {ringTime: ringTime, days: checkboxArr, ownerEmail: "susie@susie.com"}})
-    setCheckboxes(initialCheckboxState);
-    setRingTime("");
+    updateAlarm({ variables: {ringTime: ringTime, days: checkboxArr, alarmID: props.currentData.id}})
+    // setCheckboxes(initialCheckboxState);
+    // setRingTime("");
   }
 
   const createCheckbox = option => {
@@ -111,18 +110,17 @@ export default function AddAlarm(props){
 
   const createCheckboxes = () => OPTIONS.map(createCheckbox);
 
-
   return (
-    <div>
-      <h1>add alarm here:</h1>
+    // <button onClick={updateForm}>Update</button>
+    <Popup trigger={<button>Update</button>} position="right center">
       <form onSubmit={handleSubmit}>
+        <input type="hidden" value={props.currentData.id} name="id"/>
         <label>
-          Ring Time: 
-          <input type="time" value={ringTime} onChange={handleTimeChange} name="ringTime" required />
-        </label>
+          Ring Time:
+          <input type="time" value={ringTime} onChange={handleTimeChange} name="ringTime" required/></label>
         {createCheckboxes()}
-        <input type="submit" value="Submit"/>
+        <input type="submit" value="Update Alarm"/>
       </form>
-    </div>
+    </Popup>
   );
 }
