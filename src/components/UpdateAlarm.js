@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import Checkbox from "./Checkbox.js";
 import Popup from "reactjs-popup";
+import '../styles/UpdateAlarm.css';
 
 
 const UPDATE_ALARM = gql`

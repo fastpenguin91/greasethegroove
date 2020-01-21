@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { useQuery} from "@apollo/react-hooks";
 import RemoveAlarm from './RemoveAlarm.js';
 import UpdateAlarm from './UpdateAlarm.js';
+import '../styles/AlarmList.css';
 
 function getDayString(arr){
   let dayString = "";
