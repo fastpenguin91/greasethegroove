@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 export default function CurrentTime(props){
-  const [theTime, setTime] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(calculateTime());
-    }, 1000 );
-  });
 
   const returnDayString = (day) => {
     var str;
@@ -42,6 +35,16 @@ export default function CurrentTime(props){
     let currentTime = returnDayString(today.getDay()) + " " + today.getHours() + ":" + today.getMinutes();
     return currentTime;
   }
+
+  const [theTime, setTime] = useState(calculateTime());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(calculateTime());
+    }, 30000 );
+  });
+
+
 
 
   return (

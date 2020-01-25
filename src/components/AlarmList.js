@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import gql from "graphql-tag";
 import { useQuery} from "@apollo/react-hooks";
 import RemoveAlarm from './RemoveAlarm.js';
 import UpdateAlarm from './UpdateAlarm.js';
 import '../styles/AlarmList.css';
+import AlarmStatus from './AlarmStatus.js';
+
 
 function getDayString(arr){
   let dayString = "";
@@ -38,7 +40,6 @@ function getDayString(arr){
   }
 
   return dayString;
-  
 }
 
 export default function AlarmList(){
@@ -58,7 +59,6 @@ export default function AlarmList(){
     
   });
 
-
   if (loading) {
     return "Loading...";
   }
@@ -67,12 +67,9 @@ export default function AlarmList(){
     return "error..." + {error};
   }
 
-  console.log("state in alarm list???????:");
-  console.log(data);
-
-
   return (
     <div data-testid='currentTime'>
+      <AlarmStatus alarmList={data} />
       <h3>Alarms Currently Set:</h3>
       <ul>{data.alarms.map((item, index) => {
         return <li key={item.id}>{item.ringTime} {getDayString(item.days)} <UpdateAlarm currentData={item} /> <RemoveAlarm alarmID={item.id}/></li>

@@ -1,0 +1,11 @@
+
+https://www.apollographql.com/docs/tutorial/client/ --- The important react parts are 5 6 7 and 8.... 
+
+Step 2. Move state into context. Maybe it's not the best. but it'll probably work.
+
+
+Step 3. Figure out Promises and asynchronous code bs
+
+
+Probably need to understand context better to fix current problems with the timer
+https://reactjs.org/docs/context.html... I have no idea what I don't know.
